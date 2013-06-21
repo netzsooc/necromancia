@@ -1,61 +1,65 @@
 #-*-encoding: utf-8 -*-
-import nltk
+from nltk import FreqDist
+from tf import ntf
 import pickle
 
-p=open("pos_training.txt","r")
-pos_tweets = []
-for i in p:
-    ns = i.strip()
-    x = ns,'positivo'
-    pos_tweets.append(x)
-#print pos_tweets
 
-n=open("neg_training.txt","r")
-neg_tweets = []
-for i in n:
-    ns = i.strip()
-    x = ns,'negativo'
-    neg_tweets.append(x)
-  
-#print neg_tweets
+def set_labeled_training_text(file_name, label):
+    labeled_set = []
+
+    with open(file_name) as my_file:
+        for line in my_file:
+            line = line.strip()
+            label_set.append((line, category))
+
+    return label_set
+
 
 def ngramas(n, string):
-##    """Toma la cadena y devuelve ngramas (caracteres si es un str palabras si
-##es una lista). n es definido por el ususario"""
+    """Toma la cadena y devuelve ngramas (caracteres si es un str palabras si
+es una lista). n es definido por el ususario"""
 
     ngrams = []
     i = 0
     while i + n < len(string):
-        ngrams.append(string[i:i + n + 1])
+        ngrams.append(string[i:i + n])
         i += 1
 
     return ngrams
 
-	
-def trigramas(words):
-    return ngramas(2, words)
-	
-tweets = []
-for (words, sentiment) in pos_tweets + neg_tweets:
-	words_filtered = [e.lower() for e in trigramas(words) if len(e) >= 1]
-	tweets.append((words_filtered, sentiment))
-#print tweets
 
-def get_words_in_tweets(tweets):
+#def trigramas(words):
+#    return ngramas(3, words)
+
+
+#def bigramas(words):
+#    return ngramas(2, words)
+
+
+def get_words_in_tweets(labeled_tweets):
     all_words = []
-    for (words, sentiment) in tweets:
+    for (words,_) in tweets:
       all_words.extend(words)
 
     return all_words
 
+
 def get_word_features(wordlist):
-    wordlist = nltk.FreqDist(wordlist)
+    wordlist = FreqDist(wordlist)
     word_features = wordlist.keys()
 
     return word_features
 
+
+pos_tweets = set_labeled_training_text("pos_training.txt", "positivo")
+neg_tweets = set_labeled_training_text("neg_training.txt", "positivo")
+
+tweets = []
+
+for (tweet, sentiment) in pos_tweets + neg_tweets:
+    tweets.append((ngramas(3, tweet), sentiment))
+
 word_features = get_word_features(get_words_in_tweets(tweets))
-#print word_features
 
 f = open('data_features.pickle', 'wb')
 pickle.dump(word_features, f)
