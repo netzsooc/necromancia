@@ -1,0 +1,185 @@
+\documentclass[12pt,journal,compsoc]{IEEEtran}
+
+\ifCLASSOPTIONcompsoc
+
+\else
+
+\fi
+
+\ifCLASSINFOpdf
+
+\else
+
+\fi
+
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+
+\title{Spanish Sentiment Classification in Twitter\\Through the Perspective of Phonosemantics}
+
+
+\author{Octavio~S\'anchez~%\IEEEmembership{UNAM}
+        and~V\'ictor~Mijangos
+  			
+				\IEEEmembership{National~Autonomous~University~of~Mexico}
+\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem Octavio S\'anchez and V\'ictor Mijangos are members of the Language Engineering Group of the Engineering Institute in the National~Autonomous~University~of~Mexico (UNAM). They both have experience in computational treatment of semantics.\protect\\
+E-mail: \{osanchezv,vmijangosc\}@iingen.unam.mx}% 
+%\IEEEcompsocthanksitem Víctor Mijangos is part of the language engineering group and langage especialist
+%\thanks{unknown; revised unknown.}
+}
+
+
+\markboth{Journal of IEEE SENTIRE,~Vol.~?, No.~?, ?~2013}%
+{Shell \MakeLowercase{\textit{et al.}}: Computer Society Journals}
+
+
+\IEEEcompsoctitleabstractindextext{%
+\begin{abstract}
+%\boldmath
+Resumen...
+\end{abstract}
+
+\begin{IEEEkeywords}
+Sentiment detection, sentiment classification, soacial networks, Twitter, phonosemantics.
+\end{IEEEkeywords}}
+
+%Termina datos, título y cabecera
+%Comienza artículo
+
+\maketitle
+\IEEEdisplaynotcompsoctitleabstractindextext
+\IEEEpeerreviewmaketitle
+
+\section{Introduction}
+
+\IEEEPARstart{A}{ctual} technologies are capable of produce massive amount of information. In social networks, opinion data is produced every day in a massive cuantity. Twitter is a social network that allow the users to interchange opinions in 140 characters. In recent years the mining of Twitter has become a common place when talking of extraction of opinion and sentiment data.
+ 
+The principal problems in mining information of Twitter are the short information provides and the use of the language users made. These problems have created new approaches in extracting and processing these data. 
+
+Nowadays, there are many approahces to extract sentiment in Twitter, one of the most common is the use of words.  This has given resources that focus in the sentiment of words; one example is SentiWordNet, a lexical resource especialiced in opinion mining [CITA SENTIWORNET1]. But, as we have noted, the shortness of information including in tweets make diffcult to work with words and even more with n-grams of words.
+
+In detecting sentiment information from tweets it is important to use approaches that can treat natural language. Natural Language Processing and Computational Linguistics are fields that have focused in the intersection between languages and computing. For the sentiment analysis in tweets is necesary to treat sentiment as a linguistic phenomena; for this is indispensable to use models to represent the linguistic facts of the data. In this case we see sentiment as a problem of semantics. 
+
+
+\section{Linguistic approach}
+
+Linguistic knowledge is a strong support in treating natural language. As a semantic problem, sentiment detection requires a model that allow the computer to process semantic information; nevertheless semantics is one of the natural language fields that most difficulties represents for its computational treatment. 
+
+Despite of the pragmatics, we consider that words have a semantic weight that give them a polairty in cuestion of sentiment. This way we can talk of 
+\emph{bad} as negative sentimen word and \emph{good} as a positive sentiment word. However in a sentence we need to consider the word in context; for this reason many approaches have been focused in n-grams of words ([CITA SentimentLearning,RobustSentimentD,asaCorpus,etc.]). 
+
+Nevertheless, as we have mentioned before, one of the principal problems is that tweets content low cantity of words. So n-grams of words are hard to obtain and reduce the features for analysing sentiment polarity.
+
+The approach we proposed in this paper is to encompass the semantic characteristic of tweet through smaller linguistic elements than the words, this elements are the phonemas. For this purpuse we appeal the phonosemantics.
+
+\subsection{Phonosemantics}
+
+Phonosemantics is a obscure field of linguistics that contradict the saussurian idea of language randomness. 
+
+Early in the Plato's emph{Cratylus}, the philosopher propose that word's semantics lies in the phonetics. He porposed that the objects are imitated in the language trhough sylables and sounds.
+
+In more recent years, some linguists have noticed the correlation between semantics and sounds. L. Bloomfield noted the influence of sounds in the word's meaning of German. He talks about the "the sharpened sense for parallelism of vowel sound and meaning" [CITA Bloomfiel:251]. E. Sapir [CITA] also noted a correlation betweent phonems and meaning in working with native sepakers. He says that phonetic elements and dinamic features as pitch have "variable psiological values" and talk of the phonems as "simbolic atoms".
+
+[F. Marcos Marín CITA] mentioned many examples of language simbolism in spanish. This author introduce the concept of \emph{morphophonosemantics} and cuestion about semantics contents and phonetics paradigms. In english, [WomenBritish CITA] studied the phonosemtic of the \emph{br-} section. 
+
+In a recent research, [CITA Ermakov] have proposed a sentiment classification based on phonetics. They focus in russian and english words, and trhough n-grams of character they classify words in positive, negative an neutral using SVM. The f-measure for english they report is of 0.801, while for russian they obtain a 0.583 and 0.695 f-measure for positive an negative words, respectively. These results demostrate that for words this method works satisfactory principally in english.
+
+We believe that in spanish working in the phonetic level will provided a good results in sentiment classification of tweets, given the characteristic of the language. We focus not only in words but in complete sentences, so we can obtain mayor features of classification.
+
+\section{Methodology}
+\subsection{Corpus}
+
+The corpus was extracted by the Twitter API, obtaining a total of 18155 tweets. It was revised for humans to classify it into positive and negative sentiment, this reduce the corpus to 10972 positive and negative tweets. We take this corpus as base for the development of the research: 70\% of the corpus was used to train the system, 20\% for experiments and re-training and the las 10\% to evaluate the system. So the distribution of the corpus was as shown in Table \arraystretch.
+
+\begin{table}
+\renewcommand{\arraystretch}{1.3}
+\begin{center}
+\caption{Corpus distribution}
+\begin{tabular}{l c r}
+\hline
+\textbf{Tweets} & \textbf{Positives} & \textbf{Negatives} \\
+\hline
+Training set &	3840 & 3840 \\
+Experiments set & 1096 & 1096 \\
+Evaluation set & 550 & 550 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Tweet preprocessing}
+
+To better proccess the tweets, we reduce some characteristics of the original sets. We reduce the mentions, considering these as all the words beginning with @. This mentions refer to users of Twitter and have no sentiment information. As the mentions, we eliminate the urls and the \# simbols that introduces hashtags, but we retain the word related to the hashtags for considering this information importan for the sentiment classification.
+
+The :) and :( emoticons were not consider as well for considering they can introduce some noise into the system. Last, we reduce all double or more whitespaces with a single whitespace.
+
+%\subsubsection{....     Training corpus}
+%\subsubsection{....     Evaluation corpus}
+\subsection{Classification method}
+
+We use a naive bayes classifier implemented in python. To obtain  the n-grams features for the classifier we try two different methods: a single frecuency distribution and a normalized term frecuency. The frecuency distribution shows best results.
+
+\section{Results}
+
+\section{Conclusion}
+The conclusion goes here.
+
+%\appendices
+%\section{Apendix}
+%Appendix one text goes here.
+
+%\section{Apendix}
+%Appendix two text goes here.
+
+
+%Acknowledgement
+\ifCLASSOPTIONcompsoc
+  % The Computer Society usually uses the plural form
+  \section*{Acknowledgments}
+\else
+  % regular IEEE prefers the singular form
+  \section*{Acknowledgment}
+\fi
+
+
+The authors would like to thank...
+
+
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
+\ifCLASSOPTIONcaptionsoff
+  \newpage
+\fi
+
+\begin{thebibliography}{1}
+
+\bibitem{IEEEhowto:mining}
+R.~Matthew, \emph{Mining the Social Web}, 1st~ed.\hskip 1em plus
+  0.5em minus 0.4em\relax United States of America: O'Reilly Media, Inc., 2011.
+	
+\bibitem{IEEEhowto:phonetics}
+S.~Emakov and L.~Ermakova, Sentiment Classification Based on Phonetic Characteristics, \emph{ECIR 2013, LNCS 7814},\hskip 1em plus
+  0.5em minus 0.4em\relax pp. 706-709, 2013.
+
+\end{thebibliography}
+
+% \includegraphics
+%\begin{biography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
+
+\begin{IEEEbiographynophoto}{Octavio Sánchez}
+Biography text here.
+\end{IEEEbiographynophoto}
+
+\begin{IEEEbiographynophoto}{Víctor Mijangos}
+Biography text here.
+\end{IEEEbiographynophoto}
+
+%\newpage
+%\vfill
+%\enlargethispage{-5in}
+
+\end{document}
+
+
